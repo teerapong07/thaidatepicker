@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap');
+
+/* ─── Thai Date Picker v1.0 ─── */
+
+.tdp-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.tdp-wrapper input[type="text"] {
+  padding-right: 40px;
+  cursor: pointer;
+  caret-color: transparent;
+}
+
+.tdp-wrapper input[type="text"]:read-only {
+  cursor: pointer;
+}
+
+.tdp-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #888;
+}
+
+/* ─── popup ─── */
+.tdp-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  width: 300px;
+  overflow: hidden;
+  font-family: 'Sarabun', sans-serif;
+  animation: tdp-popIn 0.15s ease;
+}
+
+.tdp-popup.tdp-active { display: block; }
+
+@keyframes tdp-popIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── header ─── */
+.tdp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tdp-title {
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #4f7ef7;
+  padding: 3px 8px;
+  border-radius: 6px;
+  transition: background 0.1s;
+  user-select: none;
+}
+.tdp-title:hover { background: #eef2ff; }
+
+.tdp-nav {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s;
+  line-height: 1;
+}
+.tdp-nav:hover { background: #f0f0f0; }
+
+/* ─── day view ─── */
+.tdp-day-view { padding: 8px 10px 12px; }
+.tdp-day-view.tdp-hidden { display: none; }
+
+.tdp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+.tdp-weekdays span {
+  text-align: center;
+  font-size: 11px;
+  color: #aaa;
+  padding: 2px 0 4px;
+  font-family: 'Sarabun', sans-serif;
+}
+
+.tdp-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.tdp-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #222;
+  font-family: 'Sarabun', sans-serif;
+  transition: background 0.1s;
+  user-select: none;
+}
+.tdp-day:hover                    { background: #eef2ff; }
+.tdp-day.tdp-other                { color: #ccc; }
+.tdp-day.tdp-today                { font-weight: 600; color: #4f7ef7; }
+.tdp-day.tdp-selected             { background: #4f7ef7; color: #fff; font-weight: 600; }
+.tdp-day.tdp-selected:hover       { background: #3a6be8; }
+
+/* ─── month view ─── */
+.tdp-month-view {
+  display: none;
+  padding: 10px;
+}
+.tdp-month-view.tdp-active { display: block; }
+
+.tdp-months {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.tdp-month {
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #222;
+  font-family: 'Sarabun', sans-serif;
+  transition: background 0.1s;
+  user-select: none;
+}
+.tdp-month:hover              { background: #eef2ff; }
+.tdp-month.tdp-selected       { background: #4f7ef7; color: #fff; font-weight: 600; }
+
+/* ─── year view ─── */
+.tdp-year-view {
+  display: none;
+  padding: 10px;
+}
+.tdp-year-view.tdp-active { display: block; }
+
+.tdp-years {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.tdp-year {
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #222;
+  font-family: 'Sarabun', sans-serif;
+  transition: background 0.1s;
+  user-select: none;
+}
+.tdp-year:hover              { background: #eef2ff; }
+.tdp-year.tdp-selected       { background: #4f7ef7; color: #fff; font-weight: 600; }
