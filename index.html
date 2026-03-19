@@ -97,6 +97,36 @@ input:checked+.slider::before { transform:translateX(20px); }
 
 <!-- ── BASIC ── -->
 <div class="page active" id="page-basic">
+  <div class="sec-label">การติดตั้ง</div>
+
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">วิธีที่ 1 — CDN</div><div class="card-desc">ไม่ต้องดาวน์โหลดไฟล์ ใช้ได้เลยทันที</div></div>
+      <span class="badge badge-green">แนะนำ</span>
+    </div>
+    <div class="card-body">
+      <pre class="snippet"><span class="cm">&lt;!-- ใน &lt;head&gt; --&gt;</span>
+<span class="ck">&lt;link</span> <span class="ca">rel</span>=<span class="cs">"stylesheet"</span> <span class="ca">href</span>=<span class="cs">"https://cdn.jsdelivr.net/gh/teerapong07/thaidatepicker/thaidatepicker.css"</span><span class="ck">&gt;</span>
+
+<span class="cm">&lt;!-- ก่อน &lt;/body&gt; --&gt;</span>
+<span class="ck">&lt;script</span> <span class="ca">src</span>=<span class="cs">"https://cdn.jsdelivr.net/gh/teerapong07/thaidatepicker/thaidatepicker.js"</span><span class="ck">&gt;&lt;/script&gt;</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">วิธีที่ 2 — ดาวน์โหลดไฟล์</div><div class="card-desc">วางไฟล์ในโปรเจกต์และโหลดผ่าน path ตรงๆ</div></div>
+      <span class="badge badge-blue">Local</span>
+    </div>
+    <div class="card-body">
+      <pre class="snippet"><span class="cm">&lt;!-- ใน &lt;head&gt; --&gt;</span>
+<span class="ck">&lt;link</span> <span class="ca">rel</span>=<span class="cs">"stylesheet"</span> <span class="ca">href</span>=<span class="cs">"thaidatepicker.css"</span><span class="ck">&gt;</span>
+
+<span class="cm">&lt;!-- ก่อน &lt;/body&gt; — ต้องโหลดก่อน inline script --&gt;</span>
+<span class="ck">&lt;script</span> <span class="ca">src</span>=<span class="cs">"thaidatepicker.js"</span><span class="ck">&gt;&lt;/script&gt;</span></pre>
+    </div>
+  </div>
+
   <div class="sec-label">วิธีการใช้งาน</div>
 
   <div class="card">
