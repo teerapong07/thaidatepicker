@@ -86,17 +86,6 @@
     this.input.readOnly = true;
     if (!this.input.placeholder) this.input.placeholder = 'วว/ดด/ปปปป';
 
-    // อ่านค่าจาก value attribute ถ้ามี — รองรับ YYYY-MM-DD (ค.ศ.) และ DD/MM/YYYY (พ.ศ.)
-    var initVal = this.input.getAttribute('value') || this.input.value;
-    if (initVal && initVal !== '0000-00-00' && initVal !== '') {
-      var parsed = _parseAnyDate(initVal);
-      if (parsed) {
-        this.selected  = parsed;
-        this.viewYear  = parsed.year;
-        this.viewMonth = parsed.month;
-      }
-    }
-
     // ถ้ามี submitFormat → สร้าง hidden input แยก และเอา name ออกจาก display input
     if (this.opts.submitFormat && this.input.name) {
       this._hiddenInput = document.createElement('input');
@@ -104,6 +93,19 @@
       this._hiddenInput.name = this.input.name;
       this.input.removeAttribute('name');
       this.input.parentNode.insertBefore(this._hiddenInput, this.input.nextSibling);
+    }
+
+    // อ่านค่าจาก value attribute ถ้ามี — รองรับ YYYY-MM-DD (ค.ศ.) และ DD/MM/YYYY (พ.ศ.)
+    // ต้องทำหลัง hidden input เพื่อให้ _updateInput() sync ค่าได้ถูกต้อง
+    var initVal = this.input.getAttribute('value') || this.input.value;
+    if (initVal && initVal !== '0000-00-00' && initVal !== '') {
+      var parsed = _parseAnyDate(initVal);
+      if (parsed) {
+        this.selected  = parsed;
+        this.viewYear  = parsed.year;
+        this.viewMonth = parsed.month;
+        this._updateInput();
+      }
     }
 
     // build popup — append to body to escape modal overflow/z-index
