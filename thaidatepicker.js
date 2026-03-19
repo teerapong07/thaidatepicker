@@ -32,6 +32,31 @@
 
   function pad2(n) { return String(n).padStart(2, '0'); }
 
+  // parse วันที่จาก string หลาย format → { day, month (0-11), year (CE) }
+  function _parseAnyDate(str) {
+    if (!str) return null;
+    str = str.trim();
+
+    // YYYY-MM-DD (ISO ค.ศ.) เช่น 2024-03-05
+    var iso = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (iso) {
+      var y = parseInt(iso[1]), m = parseInt(iso[2]), d = parseInt(iso[3]);
+      if (y >= 100 && m >= 1 && m <= 12 && d >= 1 && d <= 31)
+        return { year: y, month: m - 1, day: d };
+    }
+
+    // DD/MM/YYYY หรือ D/M/YYYY — ถ้าปี > 2500 ถือเป็น พ.ศ. แปลงเป็น ค.ศ.
+    var dmy = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (dmy) {
+      var d2 = parseInt(dmy[1]), m2 = parseInt(dmy[2]), y2 = parseInt(dmy[3]);
+      if (y2 > 2400) y2 -= CE_OFFSET; // พ.ศ. → ค.ศ.
+      if (m2 >= 1 && m2 <= 12 && d2 >= 1 && d2 <= 31)
+        return { year: y2, month: m2 - 1, day: d2 };
+    }
+
+    return null;
+  }
+
   function ThaiDatePicker(input, options) {
     this.input    = input;
     this.opts     = Object.assign({ format: 'DD/MM/YYYY', onChange: null, submitFormat: null }, options || {});
@@ -60,6 +85,17 @@
     // make input readonly & set placeholder
     this.input.readOnly = true;
     if (!this.input.placeholder) this.input.placeholder = 'วว/ดด/ปปปป';
+
+    // อ่านค่าจาก value attribute ถ้ามี — รองรับ YYYY-MM-DD (ค.ศ.) และ DD/MM/YYYY (พ.ศ.)
+    var initVal = this.input.getAttribute('value') || this.input.value;
+    if (initVal && initVal !== '0000-00-00' && initVal !== '') {
+      var parsed = _parseAnyDate(initVal);
+      if (parsed) {
+        this.selected  = parsed;
+        this.viewYear  = parsed.year;
+        this.viewMonth = parsed.month;
+      }
+    }
 
     // ถ้ามี submitFormat → สร้าง hidden input แยก และเอา name ออกจาก display input
     if (this.opts.submitFormat && this.input.name) {
