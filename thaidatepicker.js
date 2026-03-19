@@ -34,7 +34,7 @@
 
   function ThaiDatePicker(input, options) {
     this.input    = input;
-    this.opts     = Object.assign({ format: 'DD/MM/YYYY', onChange: null }, options || {});
+    this.opts     = Object.assign({ format: 'DD/MM/YYYY', onChange: null, submitFormat: null }, options || {});
     this.selected = null;
 
     const now = new Date();
@@ -60,6 +60,15 @@
     // make input readonly & set placeholder
     this.input.readOnly = true;
     if (!this.input.placeholder) this.input.placeholder = 'วว/ดด/ปปปป';
+
+    // ถ้ามี submitFormat → สร้าง hidden input แยก และเอา name ออกจาก display input
+    if (this.opts.submitFormat && this.input.name) {
+      this._hiddenInput = document.createElement('input');
+      this._hiddenInput.type = 'hidden';
+      this._hiddenInput.name = this.input.name;
+      this.input.removeAttribute('name');
+      this.input.parentNode.insertBefore(this._hiddenInput, this.input.nextSibling);
+    }
 
     // build popup — append to body to escape modal overflow/z-index
     this.popup = this._buildPopup();
@@ -259,6 +268,27 @@
 
     this.input.value = val;
 
+    // sync hidden input ถ้ามี submitFormat
+    if (this._hiddenInput && this.opts.submitFormat) {
+      var sf = this.opts.submitFormat;
+      var hiddenVal;
+      if (sf === 'YYYY-MM-DD-CE' || sf === 'CE') {
+        hiddenVal = year + '-' + pad2(month + 1) + '-' + pad2(day);
+      } else if (sf === 'YYYY-MM-DD-BE' || sf === 'BE') {
+        hiddenVal = be + '-' + pad2(month + 1) + '-' + pad2(day);
+      } else {
+        // custom format เหมือน display format
+        hiddenVal = sf
+          .replace('DD',   pad2(day))
+          .replace('MM',   pad2(month + 1))
+          .replace('YYYY', be)
+          .replace('YYYY-CE', year)
+          .replace('D',    day)
+          .replace('M',    month + 1);
+      }
+      this._hiddenInput.value = hiddenVal;
+    }
+
     if (typeof this.opts.onChange === 'function') {
       this.opts.onChange({
         day, month: month + 1, yearBE: be, yearCE: year,
@@ -341,6 +371,7 @@
   ThaiDatePicker.prototype.clear = function () {
     this.selected  = null;
     this.input.value = '';
+    if (this._hiddenInput) this._hiddenInput.value = '';
   };
 
   ThaiDatePicker.prototype.setReadonly = function (bool) {
@@ -393,13 +424,17 @@
   //    แก้ปัญหา Bootstrap modal ที่ input อาจถูก re-render หรือ event หาย
   document.addEventListener('click', function (e) {
     var el = e.target;
-    if (!el || el.getAttribute('data-thaidatepicker') === null) return;
-    // ถ้ายังไม่ได้ init ให้ init ก่อน
-    if (!el.hasAttribute('data-tdp-ready')) {
-      _initEl(el);
-    }
-    // หา instance แล้ว toggle
+    if (!el) return;
+    // รองรับทั้ง data-thaidatepicker (auto-init) และ new ThaiDatePicker() ตรงๆ
     var idx = el.getAttribute('data-tdp-idx');
+    var hasAttr = el.getAttribute('data-thaidatepicker') !== null;
+    if (idx === null && !hasAttr) return;
+    // ถ้า data-thaidatepicker แต่ยังไม่ init ให้ init ก่อน
+    if (hasAttr && !el.hasAttribute('data-tdp-ready')) {
+      _initEl(el);
+      idx = el.getAttribute('data-tdp-idx');
+    }
+    // หา instance
     var inst = idx !== null ? _instances[parseInt(idx)] : _instances.find(function(i){ return i.input === el; });
     if (inst) {
       e.stopPropagation();
