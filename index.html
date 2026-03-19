@@ -1,830 +1,480 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>ThaiDatePicker — Demo</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-		<link rel="stylesheet" href="thaidatepicker.css" />
-		<style>
-			*,
-			*::before,
-			*::after {
-				box-sizing: border-box;
-				margin: 0;
-				padding: 0;
-			}
-			:root {
-				--bg: #f7f6f3;
-				--bg2: #fff;
-				--bg3: #f0efe9;
-				--border: #e2e0d8;
-				--accent: #4f7ef7;
-				--accent-l: #eef2ff;
-				--text: #1a1a24;
-				--muted: #6b6b80;
-				--muted2: #a0a0b0;
-				--green: #16a34a;
-				--green-bg: #f0fdf4;
-				--green-b: #bbf7d0;
-				--amber: #d97706;
-				--amber-bg: #fffbeb;
-				--amber-b: #fde68a;
-				--red: #dc2626;
-				--red-bg: #fef2f2;
-				--red-b: #fecaca;
-			}
-			body {
-				font-family: 'IBM Plex Sans Thai', sans-serif;
-				background: var(--bg);
-				color: var(--text);
-				font-size: 15px;
-				line-height: 1.6;
-			}
-			.header {
-				background: var(--bg2);
-				border-bottom: 1px solid var(--border);
-				padding: 0 40px;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				height: 60px;
-				position: sticky;
-				top: 0;
-				z-index: 100;
-			}
-			.logo {
-				display: flex;
-				align-items: center;
-				gap: 10px;
-			}
-			.logo-icon {
-				width: 32px;
-				height: 32px;
-				background: var(--accent);
-				border-radius: 8px;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: #fff;
-				font-size: 16px;
-			}
-			.logo-text {
-				font-size: 15px;
-				font-weight: 600;
-			}
-			.logo-ver {
-				font-size: 11px;
-				background: var(--accent-l);
-				color: var(--accent);
-				padding: 2px 8px;
-				border-radius: 20px;
-				font-family: 'JetBrains Mono', monospace;
-			}
-			.tabs {
-				display: flex;
-				gap: 2px;
-			}
-			.tab {
-				padding: 6px 16px;
-				border-radius: 8px;
-				font-size: 13.5px;
-				color: var(--muted);
-				cursor: pointer;
-				border: none;
-				background: none;
-				font-family: 'IBM Plex Sans Thai', sans-serif;
-				transition: all 0.15s;
-			}
-			.tab:hover {
-				background: var(--bg3);
-				color: var(--text);
-			}
-			.tab.active {
-				background: var(--accent);
-				color: #fff;
-			}
-			.container {
-				max-width: 880px;
-				margin: 0 auto;
-				padding: 36px 24px 100px;
-			}
-			.sec-label {
-				font-size: 11px;
-				font-weight: 600;
-				letter-spacing: 1.2px;
-				text-transform: uppercase;
-				color: var(--muted2);
-				margin-bottom: 16px;
-			}
-			.card {
-				background: var(--bg2);
-				border: 1px solid var(--border);
-				border-radius: 16px;
-				margin-bottom: 20px;
-				overflow: hidden;
-			}
-			.card-head {
-				padding: 16px 24px;
-				border-bottom: 1px solid var(--border);
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				gap: 12px;
-				flex-wrap: wrap;
-			}
-			.card-title {
-				font-size: 14px;
-				font-weight: 600;
-			}
-			.card-desc {
-				font-size: 13px;
-				color: var(--muted);
-				margin-top: 2px;
-			}
-			.card-body {
-				padding: 24px;
-			}
-			.badge {
-				font-size: 11px;
-				padding: 3px 9px;
-				border-radius: 20px;
-				font-weight: 500;
-				white-space: nowrap;
-			}
-			.badge-blue {
-				background: var(--accent-l);
-				color: var(--accent);
-			}
-			.badge-green {
-				background: var(--green-bg);
-				color: var(--green);
-				border: 1px solid var(--green-b);
-			}
-			.badge-amber {
-				background: var(--amber-bg);
-				color: var(--amber);
-				border: 1px solid var(--amber-b);
-			}
-			label {
-				display: block;
-				font-size: 13px;
-				font-weight: 500;
-				color: var(--muted);
-				margin-bottom: 7px;
-			}
-			input[type='text'],
-			input[type='number'] {
-				width: 100%;
-				padding: 10px 14px;
-				border: 1.5px solid var(--border);
-				border-radius: 10px;
-				font-family: 'IBM Plex Sans Thai', sans-serif;
-				font-size: 15px;
-				color: var(--text);
-				background: var(--bg2);
-				outline: none;
-				transition: border-color 0.15s;
-			}
-			input:focus {
-				border-color: var(--accent);
-			}
-			.field {
-				margin-bottom: 18px;
-			}
-			.row {
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 16px;
-			}
-			.row3 {
-				display: grid;
-				grid-template-columns: 1fr 1fr 1fr;
-				gap: 16px;
-			}
-			.btn {
-				padding: 9px 18px;
-				border-radius: 9px;
-				border: 1.5px solid var(--border);
-				background: var(--bg2);
-				font-family: 'IBM Plex Sans Thai', sans-serif;
-				font-size: 14px;
-				cursor: pointer;
-				color: var(--text);
-				transition: all 0.12s;
-				font-weight: 500;
-			}
-			.btn:hover {
-				background: var(--bg3);
-			}
-			.btn-p {
-				background: var(--accent);
-				color: #fff;
-				border-color: var(--accent);
-			}
-			.btn-p:hover {
-				background: #3a6be8;
-			}
-			.btn-d {
-				background: var(--red-bg);
-				color: var(--red);
-				border-color: var(--red-b);
-			}
-			.btn-s {
-				background: var(--green-bg);
-				color: var(--green);
-				border-color: var(--green-b);
-			}
-			.btn-row {
-				display: flex;
-				gap: 8px;
-				flex-wrap: wrap;
-				margin-top: 16px;
-			}
-			.out {
-				margin-top: 16px;
-				background: var(--bg3);
-				border: 1px solid var(--border);
-				border-radius: 10px;
-				padding: 14px 16px;
-				font-size: 13px;
-				color: var(--muted);
-				min-height: 44px;
-				line-height: 1.9;
-				font-family: 'JetBrains Mono', monospace;
-				display: none;
-			}
-			.out.show {
-				display: block;
-			}
-			.k {
-				color: var(--muted2);
-			}
-			.v {
-				color: var(--accent);
-				font-weight: 500;
-			}
-			.vg {
-				color: var(--green);
-				font-weight: 500;
-			}
-			.snippet {
-				background: #1e1e2e;
-				border-radius: 10px;
-				padding: 14px 18px;
-				font-family: 'JetBrains Mono', monospace;
-				font-size: 12.5px;
-				color: #cdd6f4;
-				line-height: 1.75;
-				margin-top: 16px;
-				overflow-x: auto;
-			}
-			.ck {
-				color: #cba6f7;
-			}
-			.cs {
-				color: #a6e3a1;
-			}
-			.cm {
-				color: #585b70;
-			}
-			.ca {
-				color: #89b4fa;
-			}
-			.page {
-				display: none;
-			}
-			.page.active {
-				display: block;
-			}
-			.toggle-row {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				padding: 12px 16px;
-				background: var(--bg3);
-				border-radius: 10px;
-				margin-bottom: 14px;
-			}
-			.toggle-lbl {
-				font-size: 14px;
-				font-weight: 500;
-			}
-			.toggle-sub {
-				font-size: 12px;
-				color: var(--muted);
-			}
-			.switch {
-				position: relative;
-				width: 44px;
-				height: 24px;
-			}
-			.switch input {
-				opacity: 0;
-				width: 0;
-				height: 0;
-			}
-			.slider {
-				position: absolute;
-				inset: 0;
-				background: #ddd;
-				border-radius: 24px;
-				cursor: pointer;
-				transition: background 0.2s;
-			}
-			.slider::before {
-				content: '';
-				position: absolute;
-				width: 18px;
-				height: 18px;
-				left: 3px;
-				bottom: 3px;
-				background: #fff;
-				border-radius: 50%;
-				transition: transform 0.2s;
-			}
-			input:checked + .slider {
-				background: var(--accent);
-			}
-			input:checked + .slider::before {
-				transform: translateX(20px);
-			}
-			.result-box {
-				margin-top: 20px;
-				background: var(--green-bg);
-				border: 1px solid var(--green-b);
-				border-radius: 12px;
-				padding: 16px 20px;
-				display: none;
-			}
-			.result-box.show {
-				display: block;
-			}
-			.result-box h4 {
-				font-size: 14px;
-				font-weight: 600;
-				color: var(--green);
-				margin-bottom: 10px;
-			}
-			.result-box table {
-				width: 100%;
-				font-size: 13px;
-				border-collapse: collapse;
-			}
-			.result-box td {
-				padding: 4px 0;
-				vertical-align: top;
-			}
-			.result-box td:first-child {
-				color: var(--muted2);
-				width: 180px;
-				font-family: 'JetBrains Mono', monospace;
-				font-size: 12px;
-			}
-			.result-box td:last-child {
-				color: var(--green);
-				font-weight: 500;
-				font-family: 'JetBrains Mono', monospace;
-			}
-		</style>
-	</head>
-	<body>
-		<header class="header">
-			<div class="logo">
-				<div class="logo-icon">📅</div>
-				<span class="logo-text">ThaiDatePicker</span>
-				<span class="logo-ver">v1.0</span>
-			</div>
-			<div class="tabs">
-				<button class="tab active" onclick="go('basic', this)">พื้นฐาน</button>
-				<button class="tab" onclick="go('methods', this)">Methods</button>
-				<button class="tab" onclick="go('submit', this)">Submit Format</button>
-				<button class="tab" onclick="go('form', this)">ฟอร์มจริง</button>
-			</div>
-		</header>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThaiDatePicker — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="thaidatepicker.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f6f3;--bg2:#fff;--bg3:#f0efe9;--border:#e2e0d8;
+  --accent:#4f7ef7;--accent-l:#eef2ff;--text:#1a1a24;--muted:#6b6b80;--muted2:#a0a0b0;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-b:#bbf7d0;
+  --amber:#d97706;--amber-bg:#fffbeb;--amber-b:#fde68a;
+  --red:#dc2626;--red-bg:#fef2f2;--red-b:#fecaca;
+}
+body { font-family:'IBM Plex Sans Thai',sans-serif; background:var(--bg); color:var(--text); font-size:15px; line-height:1.6; }
+.header { background:var(--bg2); border-bottom:1px solid var(--border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; }
+.logo { display:flex; align-items:center; gap:10px; }
+.logo-icon { width:32px; height:32px; background:var(--accent); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px; }
+.logo-text { font-size:15px; font-weight:600; }
+.logo-ver { font-size:11px; background:var(--accent-l); color:var(--accent); padding:2px 8px; border-radius:20px; font-family:'JetBrains Mono',monospace; }
+.tabs { display:flex; gap:2px; }
+.tab { padding:6px 16px; border-radius:8px; font-size:13.5px; color:var(--muted); cursor:pointer; border:none; background:none; font-family:'IBM Plex Sans Thai',sans-serif; transition:all .15s; }
+.tab:hover { background:var(--bg3); color:var(--text); }
+.tab.active { background:var(--accent); color:#fff; }
+.container { max-width:880px; margin:0 auto; padding:36px 24px 100px; }
+.sec-label { font-size:11px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--muted2); margin-bottom:16px; }
+.card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; margin-bottom:20px; overflow:hidden; }
+.card-head { padding:16px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.card-title { font-size:14px; font-weight:600; }
+.card-desc { font-size:13px; color:var(--muted); margin-top:2px; }
+.card-body { padding:24px; }
+.badge { font-size:11px; padding:3px 9px; border-radius:20px; font-weight:500; white-space:nowrap; }
+.badge-blue   { background:var(--accent-l); color:var(--accent); }
+.badge-green  { background:var(--green-bg); color:var(--green); border:1px solid var(--green-b); }
+.badge-amber  { background:var(--amber-bg); color:var(--amber); border:1px solid var(--amber-b); }
+label { display:block; font-size:13px; font-weight:500; color:var(--muted); margin-bottom:7px; }
+input[type=text],input[type=number] { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:'IBM Plex Sans Thai',sans-serif; font-size:15px; color:var(--text); background:var(--bg2); outline:none; transition:border-color .15s; }
+input:focus { border-color:var(--accent); }
+.field { margin-bottom:18px; }
+.row  { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+.btn { padding:9px 18px; border-radius:9px; border:1.5px solid var(--border); background:var(--bg2); font-family:'IBM Plex Sans Thai',sans-serif; font-size:14px; cursor:pointer; color:var(--text); transition:all .12s; font-weight:500; }
+.btn:hover { background:var(--bg3); }
+.btn-p { background:var(--accent); color:#fff; border-color:var(--accent); }
+.btn-p:hover { background:#3a6be8; }
+.btn-d { background:var(--red-bg); color:var(--red); border-color:var(--red-b); }
+.btn-s { background:var(--green-bg); color:var(--green); border-color:var(--green-b); }
+.btn-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+.out { margin-top:16px; background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:14px 16px; font-size:13px; color:var(--muted); min-height:44px; line-height:1.9; font-family:'JetBrains Mono',monospace; display:none; }
+.out.show { display:block; }
+.k { color:var(--muted2); }
+.v { color:var(--accent); font-weight:500; }
+.vg { color:var(--green); font-weight:500; }
+.snippet { background:#1e1e2e; border-radius:10px; padding:14px 18px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:#cdd6f4; line-height:1.75; margin-top:16px; overflow-x:auto; white-space:pre; display:block; }
+.ck{color:#cba6f7}.cs{color:#a6e3a1}.cm{color:#585b70}.ca{color:#89b4fa}
+.page { display:none; }
+.page.active { display:block; }
+.toggle-row { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:var(--bg3); border-radius:10px; margin-bottom:14px; }
+.toggle-lbl { font-size:14px; font-weight:500; }
+.toggle-sub { font-size:12px; color:var(--muted); }
+.switch { position:relative; width:44px; height:24px; }
+.switch input { opacity:0; width:0; height:0; }
+.slider { position:absolute; inset:0; background:#ddd; border-radius:24px; cursor:pointer; transition:background .2s; }
+.slider::before { content:''; position:absolute; width:18px; height:18px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:transform .2s; }
+input:checked+.slider { background:var(--accent); }
+input:checked+.slider::before { transform:translateX(20px); }
+.result-box { margin-top:20px; background:var(--green-bg); border:1px solid var(--green-b); border-radius:12px; padding:16px 20px; display:none; }
+.result-box.show { display:block; }
+.result-box h4 { font-size:14px; font-weight:600; color:var(--green); margin-bottom:10px; }
+.result-box table { width:100%; font-size:13px; border-collapse:collapse; }
+.result-box td { padding:4px 0; vertical-align:top; }
+.result-box td:first-child { color:var(--muted2); width:180px; font-family:'JetBrains Mono',monospace; font-size:12px; }
+.result-box td:last-child { color:var(--green); font-weight:500; font-family:'JetBrains Mono',monospace; }
+</style>
+</head>
+<body>
 
-		<div class="container">
-			<!-- ── BASIC ── -->
-			<div class="page active" id="page-basic">
-				<div class="sec-label">วิธีการใช้งาน</div>
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">📅</div>
+    <span class="logo-text">ThaiDatePicker</span>
+    <span class="logo-ver">v1.0</span>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="go('basic',this)">พื้นฐาน</button>
+    <button class="tab" onclick="go('methods',this)">Methods</button>
+    <button class="tab" onclick="go('submit',this)">Submit Format</button>
+    <button class="tab" onclick="go('form',this)">ฟอร์มจริง</button>
+  </div>
+</header>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">วิธีที่ 1 — Data Attribute</div>
-							<div class="card-desc">ใส่แค่ attribute เดียว lib init ให้อัตโนมัติ</div>
-						</div>
-						<span class="badge badge-green">แนะนำ</span>
-					</div>
-					<div class="card-body">
-						<div class="field"><label>วันเกิด (พ.ศ.)</label> <input type="text" data-thaidatepicker placeholder="วว/ดด/ปปปป" /></div>
-						<div class="snippet"><span class="cm">// HTML เท่านั้น ไม่ต้องเขียน JS เลย</span> <span class="ck">&lt;input</span> type=<span class="cs">"text"</span> <span class="ca">data-thaidatepicker</span> placeholder=<span class="cs">"วว/ดด/ปปปป"</span><span class="ck">&gt;</span></div>
-					</div>
-				</div>
+<div class="container">
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">วิธีที่ 2 — JavaScript Instance</div>
-							<div class="card-desc">เก็บ reference ไว้เรียกใช้ method ภายหลัง + onChange callback</div>
-						</div>
-						<span class="badge badge-blue">JS</span>
-					</div>
-					<div class="card-body">
-						<div class="field"><label>วันที่เริ่มงาน</label> <input type="text" id="d2" placeholder="วว/ดด/ปปปป" /></div>
-						<div class="out" id="out-cb"><span class="k">รอเลือกวันที่...</span></div>
-						<div class="snippet">
-							<span class="ck">const</span> picker = <span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(el, { format: <span class="cs">'DD/MM/YYYY'</span>, <span class="ca">onChange</span>: <span class="ck">function</span>(val) { val.day <span class="cm">// → 5</span> val.month
-							<span class="cm">// → 3</span> val.yearBE <span class="cm">// → 2567</span> val.yearCE <span class="cm">// → 2024</span> val.formatted <span class="cm">// → "05/03/2567"</span> val.longFormat <span class="cm">// → "5 มีนาคม พ.ศ. 2567"</span> } });
-						</div>
-					</div>
-				</div>
+<!-- ── BASIC ── -->
+<div class="page active" id="page-basic">
+  <div class="sec-label">วิธีการใช้งาน</div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">Custom Format</div>
-							<div class="card-desc">ปรับรูปแบบวันที่ผ่าน data-format</div>
-						</div>
-						<span class="badge badge-amber">data-format</span>
-					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="field"><label>DD/MM/YYYY (default)</label> <input type="text" data-thaidatepicker placeholder="05/03/2567" /></div>
-							<div class="field"><label>D/M/YYYY</label> <input type="text" data-thaidatepicker data-format="D/M/YYYY" placeholder="5/3/2567" /></div>
-						</div>
-						<div class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-format</span>=<span class="cs">"D/M/YYYY"</span><span class="ck">&gt;</span></div>
-					</div>
-				</div>
-			</div>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">วิธีที่ 1 — Data Attribute</div><div class="card-desc">ใส่แค่ attribute เดียว lib init ให้อัตโนมัติ</div></div>
+      <span class="badge badge-green">แนะนำ</span>
+    </div>
+    <div class="card-body">
+      <div class="field"><label>วันเกิด (พ.ศ.)</label>
+        <input type="text" data-thaidatepicker placeholder="วว/ดด/ปปปป"></div>
+      <pre class="snippet"><span class="cm">// HTML เท่านั้น ไม่ต้องเขียน JS เลย</span>
+<span class="ck">&lt;input</span> type=<span class="cs">"text"</span> <span class="ca">data-thaidatepicker</span> placeholder=<span class="cs">"วว/ดด/ปปปป"</span><span class="ck">&gt;</span></pre>
+    </div>
+  </div>
 
-			<!-- ── METHODS ── -->
-			<div class="page" id="page-methods">
-				<div class="sec-label">Instance & Static Methods</div>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">วิธีที่ 2 — JavaScript Instance</div><div class="card-desc">เก็บ reference ไว้เรียกใช้ method ภายหลัง + onChange callback</div></div>
+      <span class="badge badge-blue">JS</span>
+    </div>
+    <div class="card-body">
+      <div class="field"><label>วันที่เริ่มงาน</label>
+        <input type="text" id="d2" placeholder="วว/ดด/ปปปป"></div>
+      <div class="out" id="out-cb"><span class="k">รอเลือกวันที่...</span></div>
+      <pre class="snippet"><span class="ck">const</span> picker = <span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(el, {
+  format: <span class="cs">'DD/MM/YYYY'</span>,
+  <span class="ca">onChange</span>: <span class="ck">function</span>(val) {
+    val.day        <span class="cm">// → 5</span>
+    val.month      <span class="cm">// → 3</span>
+    val.yearBE     <span class="cm">// → 2567</span>
+    val.yearCE     <span class="cm">// → 2024</span>
+    val.formatted  <span class="cm">// → "05/03/2567"</span>
+    val.longFormat <span class="cm">// → "5 มีนาคม พ.ศ. 2567"</span>
+  }
+});</pre>
+    </div>
+  </div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">getValue() / setValue() / clear()</div>
-							<div class="card-desc">อ่านค่า ตั้งค่า และล้างค่า</div>
-						</div>
-					</div>
-					<div class="card-body">
-						<div class="field"><label>เลือกวันที่</label><input type="text" data-thaidatepicker id="m1" placeholder="วว/ดด/ปปปป" /></div>
-						<div class="btn-row">
-							<button class="btn btn-p" onclick="doGet()">getValue()</button>
-							<button class="btn btn-s" onclick="doSet()">setValue(1,1,2567)</button>
-							<button class="btn btn-d" onclick="doClear()">clear()</button>
-						</div>
-						<div class="out" id="out-m1"></div>
-						<div class="snippet">
-							<span class="ck">const</span> val = picker.<span class="ca">getValue</span>();
-							<span class="cm">// null ถ้ายังไม่เลือก หรือ { day, month, yearBE, yearCE, formatted, longFormat }</span>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">Custom Format</div><div class="card-desc">ปรับรูปแบบวันที่ผ่าน data-format</div></div>
+      <span class="badge badge-amber">data-format</span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="field"><label>DD/MM/YYYY (default)</label>
+          <input type="text" data-thaidatepicker placeholder="05/03/2567"></div>
+        <div class="field"><label>D/M/YYYY</label>
+          <input type="text" data-thaidatepicker data-format="D/M/YYYY" placeholder="5/3/2567"></div>
+      </div>
+      <pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-format</span>=<span class="cs">"D/M/YYYY"</span><span class="ck">&gt;</span></pre>
+    </div>
+  </div>
+</div>
 
-							picker.<span class="ca">setValue</span>(<span class="cs">1</span>, <span class="cs">1</span>, <span class="cs">2567</span>); <span class="cm">// 1 มกราคม พ.ศ. 2567</span> picker.<span class="ca">clear</span>();
-						</div>
-					</div>
-				</div>
+<!-- ── METHODS ── -->
+<div class="page" id="page-methods">
+  <div class="sec-label">Instance & Static Methods</div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">open() / close() / toggle()</div>
-							<div class="card-desc">ควบคุม popup calendar ด้วย code</div>
-						</div>
-					</div>
-					<div class="card-body">
-						<div class="field"><label>Date picker</label><input type="text" data-thaidatepicker id="m2" placeholder="วว/ดด/ปปปป" /></div>
-						<div class="btn-row">
-							<button class="btn btn-p" onclick="doOpen()">open()</button>
-							<button class="btn" onclick="doClose()">close()</button>
-							<button class="btn" onclick="doToggle()">toggle()</button>
-						</div>
-						<div class="snippet">picker.<span class="ca">open</span>(); picker.<span class="ca">close</span>(); picker.<span class="ca">toggle</span>();</div>
-					</div>
-				</div>
+  <div class="card">
+    <div class="card-head"><div><div class="card-title">getValue() / setValue() / clear()</div><div class="card-desc">อ่านค่า ตั้งค่า และล้างค่า</div></div></div>
+    <div class="card-body">
+      <div class="field"><label>เลือกวันที่</label><input type="text" data-thaidatepicker id="m1" placeholder="วว/ดด/ปปปป"></div>
+      <div class="btn-row">
+        <button class="btn btn-p" onclick="doGet()">getValue()</button>
+        <button class="btn btn-s" onclick="doSet()">setValue(1,1,2567)</button>
+        <button class="btn btn-d" onclick="doClear()">clear()</button>
+      </div>
+      <div class="out" id="out-m1"></div>
+      <pre class="snippet"><span class="ck">const</span> val = picker.<span class="ca">getValue</span>();
+<span class="cm">// null ถ้ายังไม่เลือก หรือ { day, month, yearBE, yearCE, formatted, longFormat }</span>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">setReadonly(bool)</div>
-							<div class="card-desc">ล็อก/ปลดล็อก input</div>
-						</div>
-					</div>
-					<div class="card-body">
-						<div class="toggle-row">
-							<div>
-								<div class="toggle-lbl">Readonly mode</div>
-								<div class="toggle-sub">เปิดเพื่อล็อก input ไม่ให้กดได้</div>
-							</div>
-							<label class="switch"><input type="checkbox" id="ro-toggle" onchange="doReadonly(this.checked)" /><span class="slider"></span></label>
-						</div>
-						<div class="field"><label>วันที่ (ลอง toggle ด้านบน)</label><input type="text" data-thaidatepicker id="m3" placeholder="วว/ดด/ปปปป" /></div>
-						<div class="snippet">
-							picker.<span class="ca">setReadonly</span>(<span class="ck">true</span>); <span class="cm">// ล็อก — input เป็นสีเทา</span> picker.<span class="ca">setReadonly</span>(<span class="ck">false</span>); <span class="cm">// ปลดล็อก</span> <span class="ck">new</span>
-							<span class="ca">ThaiDatePicker</span>(el, { readonly: <span class="ck">true</span> }); <span class="cm">// ตั้งแต่แรก</span>
-						</div>
-					</div>
-				</div>
+picker.<span class="ca">setValue</span>(<span class="cs">1</span>, <span class="cs">1</span>, <span class="cs">2567</span>);  <span class="cm">// 1 มกราคม พ.ศ. 2567</span>
+picker.<span class="ca">clear</span>();</pre>
+    </div>
+  </div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">ThaiDatePicker.setValueFromISO()</div>
-							<div class="card-desc">ตั้งค่าจาก YYYY-MM-DD ค.ศ. แปลงปีให้อัตโนมัติ รับ element หรือ selector</div>
-						</div>
-						<span class="badge badge-blue">static</span>
-					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="field"><label>ISO Date (ค.ศ.)</label><input type="text" id="iso-in" value="2024-08-15" /></div>
-							<div class="field"><label>แสดงเป็น พ.ศ.</label><input type="text" data-thaidatepicker id="m4" placeholder="วว/ดด/ปปปป" /></div>
-						</div>
-						<div class="btn-row">
-							<button class="btn btn-p" onclick="doISO()">setValueFromISO()</button>
-							<button class="btn" onclick="ThaiDatePicker.setValueFromISO('#m4', '')">ส่งค่าว่าง (clear)</button>
-						</div>
-						<div class="snippet">
-							<span class="ca">ThaiDatePicker</span>.<span class="ca">setValueFromISO</span>(<span class="cs">'#m4'</span>, <span class="cs">'2024-08-15'</span>);
-							<span class="cm">// ค่าว่าง / 0000-00-00 → clear() อัตโนมัติ</span>
-							<span class="ca">ThaiDatePicker</span>.<span class="ca">setValueFromISO</span>(<span class="cs">'#m4'</span>, <span class="cs">''</span>);
-						</div>
-					</div>
-				</div>
+  <div class="card">
+    <div class="card-head"><div><div class="card-title">open() / close() / toggle()</div><div class="card-desc">ควบคุม popup calendar ด้วย code</div></div></div>
+    <div class="card-body">
+      <div class="field"><label>Date picker</label><input type="text" data-thaidatepicker id="m2" placeholder="วว/ดด/ปปปป"></div>
+      <div class="btn-row">
+        <button class="btn btn-p" onclick="doOpen()">open()</button>
+        <button class="btn" onclick="doClose()">close()</button>
+        <button class="btn" onclick="doToggle()">toggle()</button>
+      </div>
+      <pre class="snippet">picker.<span class="ca">open</span>();  picker.<span class="ca">close</span>();  picker.<span class="ca">toggle</span>();</pre>
+    </div>
+  </div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">ThaiDatePicker.getInstances()</div>
-							<div class="card-desc">ดูทุก instance ในหน้า หรือหา instance จาก element</div>
-						</div>
-						<span class="badge badge-blue">static</span>
-					</div>
-					<div class="card-body">
-						<div class="btn-row">
-							<button class="btn btn-p" onclick="doInst()">getInstances()</button>
-							<button class="btn btn-d" onclick="doClearAll()">clear() ทั้งหมด</button>
-						</div>
-						<div class="out" id="out-inst"></div>
-						<div class="snippet">
-							<span class="ck">const</span> list = <span class="ca">ThaiDatePicker</span>.<span class="ca">getInstances</span>(); list.length; <span class="cm">// จำนวน picker ในหน้า</span> <span class="ck">const</span> inst = list.<span class="ca">find</span>(i => i.input.id ===
-							<span class="cs">'m1'</span>);
-						</div>
-					</div>
-				</div>
-			</div>
+  <div class="card">
+    <div class="card-head"><div><div class="card-title">setReadonly(bool)</div><div class="card-desc">ล็อก/ปลดล็อก input</div></div></div>
+    <div class="card-body">
+      <div class="toggle-row">
+        <div><div class="toggle-lbl">Readonly mode</div><div class="toggle-sub">เปิดเพื่อล็อก input ไม่ให้กดได้</div></div>
+        <label class="switch"><input type="checkbox" id="ro-toggle" onchange="doReadonly(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="field"><label>วันที่ (ลอง toggle ด้านบน)</label><input type="text" data-thaidatepicker id="m3" placeholder="วว/ดด/ปปปป"></div>
+      <pre class="snippet">picker.<span class="ca">setReadonly</span>(<span class="ck">true</span>);   <span class="cm">// ล็อก — input เป็นสีเทา</span>
+picker.<span class="ca">setReadonly</span>(<span class="ck">false</span>);  <span class="cm">// ปลดล็อก</span>
+<span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(el, { readonly: <span class="ck">true</span> }); <span class="cm">// ตั้งแต่แรก</span></pre>
+    </div>
+  </div>
 
-			<!-- ── SUBMIT FORMAT ── -->
-			<div class="page" id="page-submit">
-				<div class="sec-label">Submit Format — เลือกค่าที่ส่งไป Server</div>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">ThaiDatePicker.setValueFromISO()</div><div class="card-desc">ตั้งค่าจาก YYYY-MM-DD ค.ศ. แปลงปีให้อัตโนมัติ รับ element หรือ selector</div></div>
+      <span class="badge badge-blue">static</span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="field"><label>ISO Date (ค.ศ.)</label><input type="text" id="iso-in" value="2024-08-15"></div>
+        <div class="field"><label>แสดงเป็น พ.ศ.</label><input type="text" data-thaidatepicker id="m4" placeholder="วว/ดด/ปปปป"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-p" onclick="doISO()">setValueFromISO()</button>
+        <button class="btn" onclick="ThaiDatePicker.setValueFromISO('#m4','')">ส่งค่าว่าง (clear)</button>
+      </div>
+      <pre class="snippet"><span class="ca">ThaiDatePicker</span>.<span class="ca">setValueFromISO</span>(<span class="cs">'#m4'</span>, <span class="cs">'2024-08-15'</span>);
+<span class="cm">// ค่าว่าง / 0000-00-00 → clear() อัตโนมัติ</span>
+<span class="ca">ThaiDatePicker</span>.<span class="ca">setValueFromISO</span>(<span class="cs">'#m4'</span>, <span class="cs">''</span>);</pre>
+    </div>
+  </div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">ไม่กำหนด submitFormat (default)</div>
-							<div class="card-desc">ส่งค่าตาม format ที่แสดง เช่น 05/03/2567 (พ.ศ.)</div>
-						</div>
-						<span class="badge badge-blue">default</span>
-					</div>
-					<div class="card-body">
-						<div class="field"><label>วันที่ (name="date_default")</label> <input type="text" data-thaidatepicker name="date_default" placeholder="วว/ดด/ปปปป" /></div>
-						<div class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">name</span>=<span class="cs">"date_default"</span><span class="ck">&gt;</span> <span class="cm">// submit → "05/03/2567"</span></div>
-					</div>
-				</div>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">ThaiDatePicker.getInstances()</div><div class="card-desc">ดูทุก instance ในหน้า หรือหา instance จาก element</div></div>
+      <span class="badge badge-blue">static</span>
+    </div>
+    <div class="card-body">
+      <div class="btn-row">
+        <button class="btn btn-p" onclick="doInst()">getInstances()</button>
+        <button class="btn btn-d" onclick="doClearAll()">clear() ทั้งหมด</button>
+      </div>
+      <div class="out" id="out-inst"></div>
+      <pre class="snippet"><span class="ck">const</span> list = <span class="ca">ThaiDatePicker</span>.<span class="ca">getInstances</span>();
+list.length; <span class="cm">// จำนวน picker ในหน้า</span>
+<span class="ck">const</span> inst = list.<span class="ca">find</span>(i => i.input.id === <span class="cs">'m1'</span>);</pre>
+    </div>
+  </div>
+</div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">submitFormat: 'BE'</div>
-							<div class="card-desc">ส่งเป็น YYYY-MM-DD พ.ศ. เช่น 2567-03-05</div>
-						</div>
-						<span class="badge badge-amber">BE</span>
-					</div>
-					<div class="card-body">
-						<div class="field"><label>วันที่ (แสดง พ.ศ. / ส่ง พ.ศ.)</label> <input type="text" id="sf1" name="date_be" placeholder="วว/ดด/ปปปป" /></div>
-						<div class="out show" id="out-be"><span class="k">เลือกวันที่เพื่อดูค่าที่จะส่ง...</span></div>
-						<div class="snippet">
-							<span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(el, { submitFormat: <span class="cs">'BE'</span> });
-							<span class="cm">// submit → "2567-03-05"</span>
+<!-- ── SUBMIT FORMAT ── -->
+<div class="page" id="page-submit">
+  <div class="sec-label">Submit Format — เลือกค่าที่ส่งไป Server</div>
 
-							<span class="cm">// หรือ data attribute</span>
-							<span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-submit-format</span>=<span class="cs">"BE"</span><span class="ck">&gt;</span>
-						</div>
-					</div>
-				</div>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">ไม่กำหนด submitFormat (default)</div><div class="card-desc">ส่งค่าตาม format ที่แสดง เช่น 05/03/2567 (พ.ศ.)</div></div>
+      <span class="badge badge-blue">default</span>
+    </div>
+    <div class="card-body">
+      <div class="field"><label>วันที่ (name="date_default")</label>
+        <input type="text" data-thaidatepicker name="date_default" placeholder="วว/ดด/ปปปป"></div>
+      <pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">name</span>=<span class="cs">"date_default"</span><span class="ck">&gt;</span>
+<span class="cm">// submit → "05/03/2567"</span></pre>
+    </div>
+  </div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">submitFormat: 'CE'</div>
-							<div class="card-desc">ส่งเป็น YYYY-MM-DD ค.ศ. เหมาะกับ MySQL</div>
-						</div>
-						<span class="badge badge-green">CE / MySQL</span>
-					</div>
-					<div class="card-body">
-						<div class="field"><label>วันที่ (แสดง พ.ศ. / ส่ง ค.ศ.)</label> <input type="text" id="sf2" name="date_ce" placeholder="วว/ดด/ปปปป" /></div>
-						<div class="out show" id="out-ce"><span class="k">เลือกวันที่เพื่อดูค่าที่จะส่ง...</span></div>
-						<div class="snippet">
-							<span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(el, { submitFormat: <span class="cs">'CE'</span> });
-							<span class="cm">// submit → "2024-03-05" (ค.ศ.)</span>
-							<span class="cm">// lib สร้าง hidden input ให้อัตโนมัติ ย้าย name ไปให้</span>
-						</div>
-					</div>
-				</div>
-			</div>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">submitFormat: 'BE'</div><div class="card-desc">ส่งเป็น YYYY-MM-DD พ.ศ. เช่น 2567-03-05</div></div>
+      <span class="badge badge-amber">BE</span>
+    </div>
+    <div class="card-body">
+      <div class="field"><label>วันที่ (แสดง พ.ศ. / ส่ง พ.ศ.)</label>
+        <input type="text" id="sf1" name="date_be" placeholder="วว/ดด/ปปปป"></div>
+      <div class="out show" id="out-be"><span class="k">เลือกวันที่เพื่อดูค่าที่จะส่ง...</span></div>
+      <pre class="snippet"><span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(el, { submitFormat: <span class="cs">'BE'</span> });
+<span class="cm">// submit → "2567-03-05"</span>
 
-			<!-- ── FORM ── -->
-			<div class="page" id="page-form">
-				<div class="sec-label">ตัวอย่างฟอร์มจริง</div>
+<span class="cm">// หรือ data attribute</span>
+<span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-submit-format</span>=<span class="cs">"BE"</span><span class="ck">&gt;</span></pre>
+    </div>
+  </div>
 
-				<div class="card">
-					<div class="card-head">
-						<div>
-							<div class="card-title">แบบฟอร์มข้อมูลสิทธิบัตร</div>
-							<div class="card-desc">ใช้ date picker หลายช่อง — ส่งค่าเป็น ค.ศ. ไปที่ server</div>
-						</div>
-						<span class="badge badge-green">submitFormat: CE</span>
-					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="field">
-								<label>ชื่อผลงาน <span style="color: red">*</span></label> <input type="text" id="f-title" placeholder="ระบุชื่อผลงาน" />
-							</div>
-							<div class="field"><label>ผู้ประดิษฐ์</label> <input type="text" id="f-inv" placeholder="ชื่อ-สกุล" /></div>
-						</div>
-						<div class="row3">
-							<div class="field"><label>วันที่ยื่นคำขอ</label> <input type="text" id="f-apply" name="application_date" placeholder="วว/ดด/ปปปป" /></div>
-							<div class="field"><label>วันที่จดทะเบียน</label> <input type="text" id="f-reg" name="registration_date" placeholder="วว/ดด/ปปปป" /></div>
-							<div class="field"><label>วันหมดอายุ</label> <input type="text" id="f-exp" name="expiry_date" placeholder="วว/ดด/ปปปป" /></div>
-						</div>
-						<div class="btn-row">
-							<button class="btn btn-p" onclick="doSubmit()">บันทึกข้อมูล</button>
-							<button class="btn" onclick="doReset()">ล้างฟอร์ม</button>
-							<button class="btn btn-s" onclick="doFill()">กรอกตัวอย่าง</button>
-						</div>
-						<div class="result-box" id="f-result">
-							<h4>✓ ข้อมูลที่จะส่งไป Server</h4>
-							<table id="f-table"></table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /container -->
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">submitFormat: 'CE'</div><div class="card-desc">ส่งเป็น YYYY-MM-DD ค.ศ. เหมาะกับ MySQL</div></div>
+      <span class="badge badge-green">CE / MySQL</span>
+    </div>
+    <div class="card-body">
+      <div class="field"><label>วันที่ (แสดง พ.ศ. / ส่ง ค.ศ.)</label>
+        <input type="text" id="sf2" name="date_ce" placeholder="วว/ดด/ปปปป"></div>
+      <div class="out show" id="out-ce"><span class="k">เลือกวันที่เพื่อดูค่าที่จะส่ง...</span></div>
+      <pre class="snippet"><span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(el, { submitFormat: <span class="cs">'CE'</span> });
+<span class="cm">// submit → "2024-03-05" (ค.ศ.)</span>
+<span class="cm">// lib สร้าง hidden input ให้อัตโนมัติ ย้าย name ไปให้</span></pre>
+    </div>
+  </div>
+</div>
 
-		<script src="thaidatepicker.js"></script>
-		<script>
-			function go(id, el) {
-				document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
-				document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
-				document.getElementById('page-' + id).classList.add('active');
-				el.classList.add('active');
-			}
+<!-- ── FORM ── -->
+<div class="page" id="page-form">
+  <div class="sec-label">ตัวอย่างฟอร์มจริง</div>
 
-			// ── Basic ──
-			const picker2 = new ThaiDatePicker(document.getElementById('d2'), {
-				onChange: function (val) {
-					const o = document.getElementById('out-cb');
-					o.classList.add('show');
-					o.innerHTML =
-						`<span class="k">formatted:</span>  <span class="vg">${val.formatted}</span><br>` +
-						`<span class="k">longFormat:</span> <span class="vg">${val.longFormat}</span><br>` +
-						`<span class="k">yearBE:</span> <span class="v">${val.yearBE}</span>  <span class="k">yearCE:</span> <span class="v">${val.yearCE}</span>`;
-				},
-			});
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">แบบฟอร์มข้อมูลสิทธิบัตร</div><div class="card-desc">ใช้ date picker หลายช่อง — ส่งค่าเป็น ค.ศ. ไปที่ server</div></div>
+      <span class="badge badge-green">submitFormat: CE</span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="field"><label>ชื่อผลงาน <span style="color:red">*</span></label>
+          <input type="text" id="f-title" placeholder="ระบุชื่อผลงาน"></div>
+        <div class="field"><label>ผู้ประดิษฐ์</label>
+          <input type="text" id="f-inv" placeholder="ชื่อ-สกุล"></div>
+      </div>
+      <div class="row3">
+        <div class="field"><label>วันที่ยื่นคำขอ</label>
+          <input type="text" id="f-apply" name="application_date" placeholder="วว/ดด/ปปปป"></div>
+        <div class="field"><label>วันที่จดทะเบียน</label>
+          <input type="text" id="f-reg" name="registration_date" placeholder="วว/ดด/ปปปป"></div>
+        <div class="field"><label>วันหมดอายุ</label>
+          <input type="text" id="f-exp" name="expiry_date" placeholder="วว/ดด/ปปปป"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-p" onclick="doSubmit()">บันทึกข้อมูล</button>
+        <button class="btn" onclick="doReset()">ล้างฟอร์ม</button>
+        <button class="btn btn-s" onclick="doFill()">กรอกตัวอย่าง</button>
+      </div>
+      <div class="result-box" id="f-result">
+        <h4>✓ ข้อมูลที่จะส่งไป Server</h4>
+        <table id="f-table"></table>
+      </div>
+    </div>
+  </div>
+</div>
 
-			// ── Methods ──
-			let pickerM1, pickerM2, pickerM3, pickerM4;
+</div><!-- /container -->
 
-			// init after DOM ready — auto-init handles most, but we need refs for m1-m4
-			document.addEventListener('DOMContentLoaded', function () {
-				// find already-inited instances by id
-				function byId(id) {
-					return ThaiDatePicker.getInstances().find((i) => i.input.id === id);
-				}
-				setTimeout(function () {
-					pickerM1 = byId('m1');
-					pickerM2 = byId('m2');
-					pickerM3 = byId('m3');
-					pickerM4 = byId('m4');
-				}, 50);
-			});
+<script src="thaidatepicker.js"></script>
+<script>
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  location.hash = id;
+}
 
-			function doGet() {
-				const val = pickerM1 && pickerM1.getValue();
-				const o = document.getElementById('out-m1');
-				o.classList.add('show');
-				if (!val) {
-					o.innerHTML = '<span class="k">ยังไม่ได้เลือก → คืน</span> <span class="v">null</span>';
-					return;
-				}
-				o.innerHTML =
-					`<span class="k">formatted:</span>  <span class="vg">${val.formatted}</span><br>` +
-					`<span class="k">longFormat:</span> <span class="vg">${val.longFormat}</span><br>` +
-					`<span class="k">yearBE:</span> <span class="v">${val.yearBE}</span>  <span class="k">yearCE:</span> <span class="v">${val.yearCE}</span>`;
-			}
-			function doSet() {
-				if (pickerM1) pickerM1.setValue(1, 1, 2567);
-				const o = document.getElementById('out-m1');
-				o.classList.add('show');
-				o.innerHTML = '<span class="k">setValue(1,1,2567) →</span> <span class="vg">1 มกราคม พ.ศ. 2567</span>';
-			}
-			function doClear() {
-				if (pickerM1) pickerM1.clear();
-				const o = document.getElementById('out-m1');
-				o.classList.add('show');
-				o.innerHTML = '<span class="k">clear() →</span> <span class="v">ล้างค่าแล้ว</span>';
-			}
-			function doOpen() {
-				if (pickerM2) pickerM2.open();
-			}
-			function doClose() {
-				if (pickerM2) pickerM2.close();
-			}
-			function doToggle() {
-				if (pickerM2) pickerM2.toggle();
-			}
-			function doReadonly(b) {
-				if (pickerM3) pickerM3.setReadonly(b);
-			}
-			function doISO() {
-				ThaiDatePicker.setValueFromISO('#m4', document.getElementById('iso-in').value);
-			}
-			function doInst() {
-				const list = ThaiDatePicker.getInstances();
-				const o = document.getElementById('out-inst');
-				o.classList.add('show');
-				o.innerHTML = `<span class="k">instances:</span> <span class="v">${list.length}</span><br>` + list.map((i, n) => `<span class="k">[${n}]</span> <span class="v">${i.input.id || '(no id)'}</span> → <span class="vg">${i.input.value || '(ว่าง)'}</span>`).join('<br>');
-			}
-			function doClearAll() {
-				ThaiDatePicker.getInstances().forEach((i) => i.clear());
-				const o = document.getElementById('out-inst');
-				o.classList.add('show');
-				o.innerHTML = '<span class="k">clear() ทุก instance แล้ว</span>';
-			}
+// restore tab from hash on load
+(function() {
+  var hash = location.hash.replace('#', '');
+  var valid = ['basic', 'methods', 'submit', 'form'];
+  if (hash && valid.includes(hash)) {
+    var tab = document.querySelector('.tab[onclick*="' + hash + '"]');
+    go(hash, tab);
+  }
+})();
 
-			// ── Submit Format ──
-			const sf1 = new ThaiDatePicker(document.getElementById('sf1'), {
-				submitFormat: 'BE',
-				onChange: function (val) {
-					const m = String(val.month).padStart(2, '0'),
-						d = String(val.day).padStart(2, '0');
-					const o = document.getElementById('out-be');
-					o.innerHTML = `<span class="k">แสดงใน input:</span>  <span class="v">${val.formatted}</span><br>` + `<span class="k">ค่าที่ submit:</span>  <span class="vg">${val.yearBE}-${m}-${d} (พ.ศ.)</span>`;
-				},
-			});
-			const sf2 = new ThaiDatePicker(document.getElementById('sf2'), {
-				submitFormat: 'CE',
-				onChange: function (val) {
-					const m = String(val.month).padStart(2, '0'),
-						d = String(val.day).padStart(2, '0');
-					const o = document.getElementById('out-ce');
-					o.innerHTML = `<span class="k">แสดงใน input:</span>  <span class="v">${val.formatted}</span><br>` + `<span class="k">ค่าที่ submit:</span>  <span class="vg">${val.yearCE}-${m}-${d} (ค.ศ. MySQL)</span>`;
-				},
-			});
+// ── Basic ──
+const picker2 = new ThaiDatePicker(document.getElementById('d2'), {
+  onChange: function(val) {
+    const o = document.getElementById('out-cb');
+    o.classList.add('show');
+    o.innerHTML = `<span class="k">formatted:</span>  <span class="vg">${val.formatted}</span><br>`
+      + `<span class="k">longFormat:</span> <span class="vg">${val.longFormat}</span><br>`
+      + `<span class="k">yearBE:</span> <span class="v">${val.yearBE}</span>  <span class="k">yearCE:</span> <span class="v">${val.yearCE}</span>`;
+  }
+});
 
-			// ── Form ──
-			const fApply = new ThaiDatePicker(document.getElementById('f-apply'), { submitFormat: 'CE' });
-			const fReg = new ThaiDatePicker(document.getElementById('f-reg'), { submitFormat: 'CE' });
-			const fExp = new ThaiDatePicker(document.getElementById('f-exp'), { submitFormat: 'CE' });
+// ── Methods ──
+let pickerM1, pickerM2, pickerM3, pickerM4;
 
-			function getCE(picker) {
-				const val = picker.getValue();
-				if (!val) return '';
-				return `${val.yearCE}-${String(val.month).padStart(2, '0')}-${String(val.day).padStart(2, '0')}`;
-			}
+// init after DOM ready — auto-init handles most, but we need refs for m1-m4
+document.addEventListener('DOMContentLoaded', function() {
+  // find already-inited instances by id
+  function byId(id) {
+    return ThaiDatePicker.getInstances().find(i => i.input.id === id);
+  }
+  setTimeout(function() {
+    pickerM1 = byId('m1');
+    pickerM2 = byId('m2');
+    pickerM3 = byId('m3');
+    pickerM4 = byId('m4');
+  }, 50);
+});
 
-			function doSubmit() {
-				const rows = [
-					['title', document.getElementById('f-title').value || '(ไม่ได้กรอก)'],
-					['inventors', document.getElementById('f-inv').value || '(ไม่ได้กรอก)'],
-					['application_date', getCE(fApply) || '(ไม่ได้เลือก)'],
-					['registration_date', getCE(fReg) || '(ไม่ได้เลือก)'],
-					['expiry_date', getCE(fExp) || '(ไม่ได้เลือก)'],
-				];
-				document.getElementById('f-table').innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
-				const r = document.getElementById('f-result');
-				r.classList.add('show');
-				r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-			}
+function doGet() {
+  const val = pickerM1 && pickerM1.getValue();
+  const o = document.getElementById('out-m1');
+  o.classList.add('show');
+  if (!val) { o.innerHTML = '<span class="k">ยังไม่ได้เลือก → คืน</span> <span class="v">null</span>'; return; }
+  o.innerHTML = `<span class="k">formatted:</span>  <span class="vg">${val.formatted}</span><br>`
+    + `<span class="k">longFormat:</span> <span class="vg">${val.longFormat}</span><br>`
+    + `<span class="k">yearBE:</span> <span class="v">${val.yearBE}</span>  <span class="k">yearCE:</span> <span class="v">${val.yearCE}</span>`;
+}
+function doSet() {
+  if (pickerM1) pickerM1.setValue(1, 1, 2567);
+  const o = document.getElementById('out-m1');
+  o.classList.add('show');
+  o.innerHTML = '<span class="k">setValue(1,1,2567) →</span> <span class="vg">1 มกราคม พ.ศ. 2567</span>';
+}
+function doClear() {
+  if (pickerM1) pickerM1.clear();
+  const o = document.getElementById('out-m1');
+  o.classList.add('show');
+  o.innerHTML = '<span class="k">clear() →</span> <span class="v">ล้างค่าแล้ว</span>';
+}
+function doOpen()   { if (pickerM2) pickerM2.open(); }
+function doClose()  { if (pickerM2) pickerM2.close(); }
+function doToggle() { if (pickerM2) pickerM2.toggle(); }
+function doReadonly(b) { if (pickerM3) pickerM3.setReadonly(b); }
+function doISO() { ThaiDatePicker.setValueFromISO('#m4', document.getElementById('iso-in').value); }
+function doInst() {
+  const list = ThaiDatePicker.getInstances();
+  const o = document.getElementById('out-inst');
+  o.classList.add('show');
+  o.innerHTML = `<span class="k">instances:</span> <span class="v">${list.length}</span><br>`
+    + list.map((i, n) => `<span class="k">[${n}]</span> <span class="v">${i.input.id || '(no id)'}</span> → <span class="vg">${i.input.value || '(ว่าง)'}</span>`).join('<br>');
+}
+function doClearAll() {
+  ThaiDatePicker.getInstances().forEach(i => i.clear());
+  const o = document.getElementById('out-inst');
+  o.classList.add('show');
+  o.innerHTML = '<span class="k">clear() ทุก instance แล้ว</span>';
+}
 
-			function doReset() {
-				document.getElementById('f-title').value = '';
-				document.getElementById('f-inv').value = '';
-				fApply.clear();
-				fReg.clear();
-				fExp.clear();
-				document.getElementById('f-result').classList.remove('show');
-			}
+// ── Submit Format ──
+const sf1 = new ThaiDatePicker(document.getElementById('sf1'), {
+  submitFormat: 'BE',
+  onChange: function(val) {
+    const m = String(val.month).padStart(2,'0'), d = String(val.day).padStart(2,'0');
+    const o = document.getElementById('out-be');
+    o.innerHTML = `<span class="k">แสดงใน input:</span>  <span class="v">${val.formatted}</span><br>`
+      + `<span class="k">ค่าที่ submit:</span>  <span class="vg">${val.yearBE}-${m}-${d} (พ.ศ.)</span>`;
+  }
+});
+const sf2 = new ThaiDatePicker(document.getElementById('sf2'), {
+  submitFormat: 'CE',
+  onChange: function(val) {
+    const m = String(val.month).padStart(2,'0'), d = String(val.day).padStart(2,'0');
+    const o = document.getElementById('out-ce');
+    o.innerHTML = `<span class="k">แสดงใน input:</span>  <span class="v">${val.formatted}</span><br>`
+      + `<span class="k">ค่าที่ submit:</span>  <span class="vg">${val.yearCE}-${m}-${d} (ค.ศ. MySQL)</span>`;
+  }
+});
 
-			function doFill() {
-				document.getElementById('f-title').value = 'วัสดุทดแทนกระดูกจากเซลลูโลสนาโน';
-				document.getElementById('f-inv').value = 'รศ.ดร.สมชาย ใจดี';
-				ThaiDatePicker.setValueFromISO('#f-apply', '2022-06-15');
-				ThaiDatePicker.setValueFromISO('#f-reg', '2023-11-01');
-				ThaiDatePicker.setValueFromISO('#f-exp', '2042-06-14');
-			}
-		</script>
-	</body>
+// ── Form ──
+const fApply = new ThaiDatePicker(document.getElementById('f-apply'), { submitFormat: 'CE' });
+const fReg   = new ThaiDatePicker(document.getElementById('f-reg'),   { submitFormat: 'CE' });
+const fExp   = new ThaiDatePicker(document.getElementById('f-exp'),   { submitFormat: 'CE' });
+
+function getCE(picker) {
+  const val = picker.getValue();
+  if (!val) return '';
+  return `${val.yearCE}-${String(val.month).padStart(2,'0')}-${String(val.day).padStart(2,'0')}`;
+}
+
+function doSubmit() {
+  const rows = [
+    ['title',             document.getElementById('f-title').value || '(ไม่ได้กรอก)'],
+    ['inventors',         document.getElementById('f-inv').value   || '(ไม่ได้กรอก)'],
+    ['application_date',  getCE(fApply) || '(ไม่ได้เลือก)'],
+    ['registration_date', getCE(fReg)   || '(ไม่ได้เลือก)'],
+    ['expiry_date',       getCE(fExp)   || '(ไม่ได้เลือก)'],
+  ];
+  document.getElementById('f-table').innerHTML = rows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+  const r = document.getElementById('f-result');
+  r.classList.add('show');
+  r.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function doReset() {
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-inv').value = '';
+  fApply.clear(); fReg.clear(); fExp.clear();
+  document.getElementById('f-result').classList.remove('show');
+}
+
+function doFill() {
+  document.getElementById('f-title').value = 'วัสดุทดแทนกระดูกจากเซลลูโลสนาโน';
+  document.getElementById('f-inv').value   = 'รศ.ดร.สมชาย ใจดี';
+  ThaiDatePicker.setValueFromISO('#f-apply', '2022-06-15');
+  ThaiDatePicker.setValueFromISO('#f-reg',   '2023-11-01');
+  ThaiDatePicker.setValueFromISO('#f-exp',   '2042-06-14');
+}
+</script>
+</body>
 </html>
