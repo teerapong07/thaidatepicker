@@ -465,6 +465,29 @@
 				<div class="card">
 					<div class="card-head">
 						<div>
+							<div class="card-title">Value Attribute — ดึงค่าจากฐานข้อมูล</div>
+							<div class="card-desc">ใส่ค่าใน value ได้เลย lib แปลงและแสดงเป็น พ.ศ. อัตโนมัติ</div>
+						</div>
+						<span class="badge badge-amber">value</span>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="field"><label>YYYY-MM-DD ค.ศ. (MySQL)</label> <input type="text" data-thaidatepicker value="2024-08-15" placeholder="วว/ดด/ปปปป" /></div>
+							<div class="field"><label>DD/MM/YYYY พ.ศ.</label> <input type="text" data-thaidatepicker value="15/08/2567" placeholder="วว/ดด/ปปปป" /></div>
+						</div>
+						<pre class="snippet"><span class="cm">&lt;!-- YYYY-MM-DD ค.ศ. (MySQL) → แปลงเป็น พ.ศ. อัตโนมัติ --&gt;</span>
+<span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span>
+       <span class="ca">value</span>=<span class="cs">"&lt;?php echo $row['date']; ?&gt;"</span><span class="ck">&gt;</span>
+
+<span class="cm">&lt;!-- DD/MM/YYYY พ.ศ. → ใช้ได้เลย --&gt;</span>
+<span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span>
+       <span class="ca">value</span>=<span class="cs">"15/08/2567"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
 							<div class="card-title">วิธีที่ 2 — JavaScript Instance</div>
 							<div class="card-desc">เก็บ reference ไว้เรียกใช้ method ภายหลัง + onChange callback</div>
 						</div>
