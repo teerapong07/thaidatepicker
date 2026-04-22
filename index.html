@@ -35,6 +35,22 @@
 				--red-bg: #fef2f2;
 				--red-b: #fecaca;
 			}
+			:is(.dark, [data-bs-theme="dark"]) {
+				--bg: #0f1115;
+				--bg2: #181c23;
+				--bg3: #232932;
+				--border: #2d343f;
+				--text: #e2e8f0;
+				--muted: #94a3b8;
+				--muted2: #64748b;
+				--accent-l: rgba(79, 126, 247, 0.15);
+				--green-bg: rgba(22, 163, 74, 0.1);
+				--green-b: rgba(22, 163, 74, 0.2);
+				--amber-bg: rgba(217, 119, 6, 0.1);
+				--amber-b: rgba(217, 119, 6, 0.2);
+				--red-bg: rgba(220, 38, 38, 0.1);
+				--red-b: rgba(220, 38, 38, 0.2);
+			}
 			body {
 				font-family: 'IBM Plex Sans Thai', sans-serif;
 				background: var(--bg);
@@ -81,6 +97,7 @@
 				padding: 2px 8px;
 				border-radius: 20px;
 				font-family: 'JetBrains Mono', monospace;
+				border: 1px solid var(--accent);
 			}
 			.tabs {
 				display: flex;
@@ -402,7 +419,11 @@
 				<button class="tab active" onclick="go('basic', this)">พื้นฐาน</button>
 				<button class="tab" onclick="go('methods', this)">Methods</button>
 				<button class="tab" onclick="go('submit', this)">Submit Format</button>
+				<button class="tab" onclick="go('time', this)">ระบบเวลา</button>
+				<button class="tab" onclick="go('lang', this)">ภาษา/พ.ศ.-ค.ศ.</button>
+				<button class="tab" onclick="go('extra', this)">Quick Actions/Constraints</button>
 				<button class="tab" onclick="go('form', this)">ฟอร์มจริง</button>
+				<button class="tab" onclick="go('install', this)">วิธีใช้งาน/Code</button>
 			</div>
 		</header>
 
@@ -695,6 +716,158 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 				</div>
 			</div>
 
+			<!-- ── TIME ── -->
+			<div class="page" id="page-time">
+				<div class="sec-label">ระบบเลือกเวลา (Scrollable Time Picker)</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">โหมดเลือกเวลาเท่านั้น (Time Only)</div>
+							<div class="card-desc">ใส่ attribute data-only-time="true" ปฏิทินจะถูกซ่อน</div>
+						</div>
+						<span class="badge badge-green">New Mode</span>
+					</div>
+					<div class="card-body">
+						<div class="field"><label>เลือกเวลาเช็คอิน</label> <input type="text" data-thaidatepicker data-only-time="true" placeholder="--:--" /></div>
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-only-time</span>=<span class="cs">"true"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">เลือกวันที่ร่วมกับเวลา (Scroll UI)</div>
+							<div class="card-desc">UI แบบเลื่อนเลือกที่ใช้งานง่ายกว่าเดิม</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="field"><label>วันและเวลาที่นัดหมาย</label> <input type="text" data-thaidatepicker data-enable-time="true" placeholder="เลือกวันและเวลา" /></div>
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-enable-time</span>=<span class="cs">"true"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">เรียกใช้งานผ่าน JavaScript</div>
+							<div class="card-desc">รองรับการดึงค่าเวลาผ่าน getValue()</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="field"><label>ตัวอย่าง JS (Only Time)</label> <input type="text" id="t1" placeholder="เลือกเวลา" /></div>
+						<div class="btn-row">
+							<button class="btn btn-p" onclick="doGetTime()">ดึงค่า (getValue)</button>
+						</div>
+						<div class="out" id="out-t1"></div>
+						<pre class="snippet"><span class="ck">const</span> picker = <span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(el, {
+  <span class="ca">onlyTime</span>: <span class="ck">true</span>,
+  <span class="ca">onChange</span>: <span class="ck">function</span>(val) {
+    console.log(val.hour, val.minute);
+  }
+});</pre>
+					</div>
+				</div>
+			</div>
+
+			<!-- ── LANG & ERA ── -->
+			<div class="page" id="page-lang">
+				<div class="sec-label">ภาษาและยุคสมัย (Localization & Era)</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">รองรับภาษาอังกฤษ (English)</div>
+							<div class="card-desc">ใส่ data-lang="en"</div>
+						</div>
+						<span class="badge badge-green">New</span>
+					</div>
+					<div class="card-body">
+						<div class="field"><label>English Interface</label> <input type="text" data-thaidatepicker data-lang="en" placeholder="Select Date" /></div>
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-lang</span>=<span class="cs">"en"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">เลือกใช้ คริสต์ศักราช (Common Era)</div>
+							<div class="card-desc">ใส่ data-era="ce"</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="field"><label>แบบ ค.ศ. (CE)</label> <input type="text" data-thaidatepicker data-era="ce" placeholder="วว/ดด/ค.ศ." /></div>
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-era</span>=<span class="cs">"ce"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">โหมดมืดอัตโนมัติ (Auto Dark Mode)</div>
+							<div class="card-desc">ตรวจจับจาก Tailwind (.dark) หรือ Bootstrap</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<p style="margin-bottom: 15px; font-size: 14px; color: #666;">ทดสอบเปลี่ยน Theme ของหน้านี้:</p>
+						<div class="btn-row">
+							<button class="btn" onclick="setTheme('light')">Light Mode</button>
+							<button class="btn btn-p" onclick="setTheme('dark')">Dark Mode</button>
+						</div>
+						<div class="field" style="margin-top: 20px;"><label>ลองคลิกเปิดปฏิทินดูความเปลี่ยนแปลง</label> <input type="text" data-thaidatepicker data-enable-time="true" placeholder="เลือกวันและเวลา" /></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ── EXTRA ── -->
+			<div class="page" id="page-extra">
+				<div class="sec-label">Quick Actions & Constraints</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">ปุ่มลัด (Today & Clear)</div>
+							<div class="card-desc">เพิ่มปุ่มลัดใน Footer</div>
+						</div>
+						<span class="badge badge-green">New</span>
+					</div>
+					<div class="card-body">
+						<div class="field"><label>ปุ่ม Today/Clear</label> <input type="text" data-thaidatepicker data-show-today="true" data-show-clear="true" placeholder="ลองเปิดดูปุ่มด้านล่าง" /></div>
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> 
+       <span class="ca">data-show-today</span>=<span class="cs">"true"</span> 
+       <span class="ca">data-show-clear</span>=<span class="cs">"true"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">จำกัดวันที่ (Constraints)</div>
+							<div class="card-desc">ห้ามเลือกย้อนหลัง (Min Date)</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="field"><label>เลือกได้ตั้งแต่วันนี้เป็นต้นไป</label> <input type="text" data-thaidatepicker data-min-date="today" placeholder="วันที่ในอดีตจะเลือกไม่ได้" /></div>
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-min-date</span>=<span class="cs">"today"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">กำหนดช่วงที่เลือกได้</div>
+							<div class="card-desc">Min/Max Date เจาะจง</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="field"><label>เลือกได้เฉพาะ 1-15 เม.ย. 2567</label> <input type="text" data-thaidatepicker data-min-date="2024-04-01" data-max-date="2024-04-15" placeholder="1-15 Apr 2024 Only" /></div>
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> 
+       <span class="ca">data-min-date</span>=<span class="cs">"2024-04-01"</span> 
+       <span class="ca">data-max-date</span>=<span class="cs">"2024-04-15"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+			</div>
+
 			<!-- ── FORM ── -->
 			<div class="page" id="page-form">
 				<div class="sec-label">ตัวอย่างฟอร์มจริง</div>
@@ -715,9 +888,13 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 							<div class="field"><label>ผู้ประดิษฐ์</label> <input type="text" id="f-inv" placeholder="ชื่อ-สกุล" /></div>
 						</div>
 						<div class="row3">
-							<div class="field"><label>วันที่ยื่นคำขอ</label> <input type="text" id="f-apply" name="application_date" placeholder="วว/ดด/ปปปป" /></div>
-							<div class="field"><label>วันที่จดทะเบียน</label> <input type="text" id="f-reg" name="registration_date" placeholder="วว/ดด/ปปปป" /></div>
-							<div class="field"><label>วันหมดอายุ</label> <input type="text" id="f-exp" name="expiry_date" placeholder="วว/ดด/ปปปป" /></div>
+							<div class="field"><label>วันที่ยื่นคำขอ</label> <input type="text" id="f-apply" name="application_date" data-thaidatepicker data-submit-format="CE" placeholder="วว/ดด/ปปปป" /></div>
+							<div class="field"><label>วันที่จดทะเบียน</label> <input type="text" id="f-reg" name="registration_date" data-thaidatepicker data-submit-format="CE" placeholder="วว/ดด/ปปปป" /></div>
+							<div class="field"><label>วันหมดอายุ</label> <input type="text" id="f-exp" name="expiry_date" data-thaidatepicker data-submit-format="CE" placeholder="วว/ดด/ปปปป" /></div>
+						</div>
+						<div class="row">
+							<div class="field"><label>วันที่เริ่มโครงการ (Range Start)</label> <input type="text" id="f-start" name="start_date" data-thaidatepicker data-linked-to="#f-end" data-submit-format="CE" placeholder="วันที่เริ่ม" /></div>
+							<div class="field"><label>วันที่สิ้นสุดโครงการ (Range End)</label> <input type="text" id="f-end" name="end_date" data-thaidatepicker data-submit-format="CE" placeholder="วันที่สิ้นสุด" /></div>
 						</div>
 						<div class="btn-row">
 							<button class="btn btn-p" onclick="doSubmit()">บันทึกข้อมูล</button>
@@ -728,6 +905,108 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 							<h4>✓ ข้อมูลที่จะส่งไป Server</h4>
 							<table id="f-table"></table>
 						</div>
+					</div>
+				</div>
+
+				<div class="card" style="margin-top: 20px;">
+					<div class="card-head">
+						<div>
+							<div class="card-title">โค้ดสำหรับฟอร์มนี้ (Source Code)</div>
+							<div class="card-desc">ตัวอย่างการตั้งค่าสำหรับฟอร์มสิทธิบัตรและระบบ Range Picker</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="sec-label">HTML Structure</div>
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-submit-format</span>=<span class="cs">"CE"</span><span class="ck">&gt;</span>
+
+<span class="cm">&lt;!-- Range Picker --&gt;</span>
+<span class="ck">&lt;input</span> <span class="ca">id</span>=<span class="cs">"f-start"</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-linked-to</span>=<span class="cs">"#f-end"</span><span class="ck">&gt;</span>
+<span class="ck">&lt;input</span> <span class="ca">id</span>=<span class="cs">"f-end"</span> <span class="ca">data-thaidatepicker</span><span class="ck">&gt;</span></pre>
+
+						<div class="sec-label" style="margin-top: 20px;">JavaScript Initialization</div>
+						<pre class="snippet"><span class="ck">const</span> fStart = <span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(document.<span class="ca">getElementById</span>(<span class="cs">'f-start'</span>), {
+    submitFormat: <span class="cs">'CE'</span>,
+    linkedTo: <span class="cs">'#f-end'</span>
+});
+
+<span class="ck">const</span> fEnd = <span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(document.<span class="ca">getElementById</span>(<span class="cs">'f-end'</span>), {
+    submitFormat: <span class="cs">'CE'</span>
+});</pre>
+					</div>
+				</div>
+			</div>
+
+			<!-- ── INSTALL ── -->
+			<div class="page" id="page-install">
+				<div class="sec-label">Installation & Usage Guide</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">1. ติดตั้งไฟล์ (Setup)</div>
+							<div class="card-desc">คัดลองไฟล์ CSS และ JS ไปไว้ในโปรเจกต์</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<pre class="snippet"><span class="cm">&lt;!-- CSS --&gt;</span>
+<span class="ck">&lt;link</span> <span class="ca">rel</span>=<span class="cs">"stylesheet"</span> <span class="ca">href</span>=<span class="cs">"thaidatepicker.css"</span><span class="ck">&gt;</span>
+
+<span class="cm">&lt;!-- JavaScript --&gt;</span>
+<span class="ck">&lt;script</span> <span class="ca">src</span>=<span class="cs">"thaidatepicker.js"</span><span class="ck">&gt;&lt;/script&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">2. การใช้งานแบบอัตโนมัติ (HTML Auto-init)</div>
+							<div class="card-desc">เพียงใส่ attribute data-thaidatepicker</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">type</span>=<span class="cs">"text"</span> <span class="ca">data-thaidatepicker</span><span class="ck">&gt;</span>
+
+<span class="cm">&lt;!-- ปรับแต่งผ่าน Data Attributes --&gt;</span>
+<span class="ck">&lt;input</span> <span class="ca">type</span>=<span class="cs">"text"</span> 
+       <span class="ca">data-thaidatepicker</span> 
+       <span class="ca">data-lang</span>=<span class="cs">"en"</span> 
+       <span class="ca">data-era</span>=<span class="cs">"ce"</span> 
+       <span class="ca">data-enable-time</span>=<span class="cs">"true"</span><span class="ck">&gt;</span></pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">3. การใช้งานผ่าน JavaScript (Manual Init)</div>
+							<div class="card-desc">ควบคุมได้ละเอียดขึ้นผ่าน Options</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<pre class="snippet"><span class="ck">const</span> picker = <span class="ck">new</span> <span class="ca">ThaiDatePicker</span>(document.<span class="ca">getElementById</span>(<span class="cs">'my-input'</span>), {
+    lang: <span class="cs">'th'</span>,             <span class="cm">// 'th' | 'en'</span>
+    era: <span class="cs">'be'</span>,              <span class="cm">// 'be' (พ.ศ.) | 'ce' (ค.ศ.)</span>
+    format: <span class="cs">'DD/MM/YYYY'</span>,   <span class="cm">// Format วันที่</span>
+    enableTime: <span class="cs">true</span>,       <span class="cm">// เปิดเลือกเวลา</span>
+    showTodayButton: <span class="cs">true</span>,  <span class="cm">// แสดงปุ่มวันนี้</span>
+    showClearButton: <span class="cs">true</span>,  <span class="cm">// แสดงปุ่มล้างค่า</span>
+    onChange: (val) => {
+        console.<span class="ca">log</span>(val);   <span class="cm">// { formatted, yearBE, yearCE, hour, minute, ... }</span>
+    }
+});</pre>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-head">
+						<div>
+							<div class="card-title">4. การเชื่อมต่อช่วงวันที่ (Range Picker)</div>
+							<div class="card-desc">เชื่อม 2 Input เข้าด้วยกัน</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<pre class="snippet"><span class="ck">&lt;input</span> <span class="ca">id</span>=<span class="cs">"start"</span> <span class="ca">data-thaidatepicker</span> <span class="ca">data-linked-to</span>=<span class="cs">"#end"</span><span class="ck">&gt;</span>
+<span class="ck">&lt;input</span> <span class="ca">id</span>=<span class="cs">"end"</span> <span class="ca">data-thaidatepicker</span><span class="ck">&gt;</span></pre>
 					</div>
 				</div>
 			</div>
@@ -747,7 +1026,7 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 			// restore tab from hash on load
 			(function () {
 				var hash = location.hash.replace('#', '');
-				var valid = ['basic', 'methods', 'submit', 'form'];
+				var valid = ['basic', 'methods', 'submit', 'time', 'lang', 'extra', 'form', 'install'];
 				if (hash && valid.includes(hash)) {
 					var tab = document.querySelector('.tab[onclick*="' + hash + '"]');
 					go(hash, tab);
@@ -798,9 +1077,30 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 			}
 			function doSet() {
 				if (pickerM1) pickerM1.setValue(1, 1, 2567);
-				const o = document.getElementById('out-m1');
+			}
+
+			// ── Time ──
+			let pickerT1;
+			document.addEventListener('DOMContentLoaded', function () {
+				setTimeout(function () {
+					pickerT1 = ThaiDatePicker.getInstances().find((i) => i.input.id === 't1');
+					if (!pickerT1 && document.getElementById('t1')) {
+						pickerT1 = new ThaiDatePicker(document.getElementById('t1'), { onlyTime: true });
+					}
+				}, 100);
+			});
+
+			function doGetTime() {
+				const val = pickerT1 && pickerT1.getValue();
+				const o = document.getElementById('out-t1');
 				o.classList.add('show');
-				o.innerHTML = '<span class="k">setValue(1,1,2567) →</span> <span class="vg">1 มกราคม พ.ศ. 2567</span>';
+				if (!val) {
+					o.innerHTML = '<span class="k">ยังไม่ได้เลือก</span>';
+					return;
+				}
+				o.innerHTML =
+					`<span class="k">formatted:</span> <span class="vg">${val.formatted}</span><br>` +
+					`<span class="k">Time:</span> <span class="v">${String(val.hour).padStart(2, '0')}:${String(val.minute).padStart(2, '0')}</span>`;
 			}
 			function doClear() {
 				if (pickerM1) pickerM1.clear();
@@ -860,6 +1160,8 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 			const fApply = new ThaiDatePicker(document.getElementById('f-apply'), { submitFormat: 'CE' });
 			const fReg = new ThaiDatePicker(document.getElementById('f-reg'), { submitFormat: 'CE' });
 			const fExp = new ThaiDatePicker(document.getElementById('f-exp'), { submitFormat: 'CE' });
+			const fStart = new ThaiDatePicker(document.getElementById('f-start'), { submitFormat: 'CE', linkedTo: '#f-end' });
+			const fEnd = new ThaiDatePicker(document.getElementById('f-end'), { submitFormat: 'CE' });
 
 			function getCE(picker) {
 				const val = picker.getValue();
@@ -874,6 +1176,8 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 					['application_date', getCE(fApply) || '(ไม่ได้เลือก)'],
 					['registration_date', getCE(fReg) || '(ไม่ได้เลือก)'],
 					['expiry_date', getCE(fExp) || '(ไม่ได้เลือก)'],
+					['start_date', getCE(fStart) || '(ไม่ได้เลือก)'],
+					['end_date', getCE(fEnd) || '(ไม่ได้เลือก)'],
 				];
 				document.getElementById('f-table').innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
 				const r = document.getElementById('f-result');
@@ -887,6 +1191,8 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 				fApply.clear();
 				fReg.clear();
 				fExp.clear();
+				fStart.clear();
+				fEnd.clear();
 				document.getElementById('f-result').classList.remove('show');
 			}
 
@@ -896,6 +1202,25 @@ list.length; <span class="cm">// จำนวน picker ในหน้า</span
 				ThaiDatePicker.setValueFromISO('#f-apply', '2022-06-15');
 				ThaiDatePicker.setValueFromISO('#f-reg', '2023-11-01');
 				ThaiDatePicker.setValueFromISO('#f-exp', '2042-06-14');
+				ThaiDatePicker.setValueFromISO('#f-start', '2024-01-01');
+				ThaiDatePicker.setValueFromISO('#f-end', '2025-12-31');
+			}
+
+			// ── Theme ──
+			function setTheme(mode) {
+				if (mode === 'dark') {
+					document.documentElement.classList.add('dark');
+					document.documentElement.classList.remove('light');
+					document.body.setAttribute('data-bs-theme', 'dark');
+					document.body.style.backgroundColor = '#121212';
+					document.body.style.color = '#eee';
+				} else {
+					document.documentElement.classList.remove('dark');
+					document.documentElement.classList.add('light');
+					document.body.removeAttribute('data-bs-theme');
+					document.body.style.backgroundColor = '';
+					document.body.style.color = '';
+				}
 			}
 		</script>
 	</body>
