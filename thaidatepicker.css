@@ -1,6 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap');
 
-/* ─── Thai Date Picker v1.0 ─── */
+/* ─── Thai Date Picker v1.1 ─── */
+
+:root {
+  --tdp-primary: #4f7ef7;
+  --tdp-primary-hover: #3a6be8;
+  --tdp-bg: #ffffff;
+  --tdp-text-main: #222222;
+  --tdp-text-muted: #888888;
+  --tdp-border: #e0e0e0;
+  --tdp-hover-bg: #eef2ff;
+  --tdp-radius-popup: 14px;
+  --tdp-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  --tdp-header-border: #f0f0f0;
+  --tdp-time-bg: #fff;
+  --tdp-time-highlight: rgba(79, 126, 247, 0.04);
+  --tdp-icon-color: #888;
+  --tdp-weekday-color: #aaa;
+  --tdp-day-other: #ccc;
+  --tdp-day-today: #4f7ef7;
+  --tdp-sep-color: #ddd;
+}
+
+
+/* 2. เมื่อมีการใส่คลาส .dark (Tailwind) หรือ data-bs-theme="dark" (Bootstrap) โดยตรง */
+:is(html.dark, body.dark, html[data-bs-theme="dark"], body[data-bs-theme="dark"]) {
+  --tdp-bg: #1e1e1e;
+  --tdp-text-main: #e0e0e0;
+  --tdp-text-muted: #aaaaaa;
+  --tdp-border: #333333;
+  --tdp-hover-bg: #2d313d;
+  --tdp-header-border: #2d2d2d;
+  --tdp-time-bg: #1e1e1e;
+  --tdp-time-highlight: rgba(79, 126, 247, 0.15);
+  --tdp-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --tdp-icon-color: #aaa;
+  --tdp-weekday-color: #666;
+  --tdp-day-other: #444;
+  --tdp-sep-color: #333;
+}
 
 .tdp-wrapper {
   position: relative;
@@ -24,7 +62,7 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  color: #888;
+  color: var(--tdp-icon-color);
 }
 
 /* ─── popup ─── */
@@ -34,14 +72,15 @@
   top: 0;
   left: 0;
   z-index: 999999;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  background: var(--tdp-bg);
+  border: 1.5px solid var(--tdp-border);
+  border-radius: var(--tdp-radius-popup);
+  box-shadow: var(--tdp-shadow);
   width: 300px;
   overflow: hidden;
   font-family: 'Sarabun', sans-serif;
   animation: tdp-popIn 0.15s ease;
+  color: var(--tdp-text-main);
 }
 
 .tdp-popup.tdp-active { display: block; }
@@ -57,20 +96,21 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px 10px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--tdp-header-border);
 }
+.tdp-header.tdp-hidden { display: none; }
 
 .tdp-title {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  color: #4f7ef7;
+  color: var(--tdp-primary);
   padding: 3px 8px;
   border-radius: 6px;
   transition: background 0.1s;
   user-select: none;
 }
-.tdp-title:hover { background: #eef2ff; }
+.tdp-title:hover { background: var(--tdp-hover-bg); }
 
 .tdp-nav {
   width: 28px;
@@ -80,14 +120,14 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 18px;
-  color: #555;
+  color: var(--tdp-text-main);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.1s;
   line-height: 1;
 }
-.tdp-nav:hover { background: #f0f0f0; }
+.tdp-nav:hover { background: var(--tdp-hover-bg); }
 
 /* ─── day view ─── */
 .tdp-day-view { padding: 8px 10px 12px; }
@@ -101,9 +141,8 @@
 .tdp-weekdays span {
   text-align: center;
   font-size: 11px;
-  color: #aaa;
+  color: var(--tdp-weekday-color);
   padding: 2px 0 4px;
-  font-family: 'Sarabun', sans-serif;
 }
 
 .tdp-days {
@@ -120,16 +159,17 @@
   font-size: 13px;
   border-radius: 50%;
   cursor: pointer;
-  color: #222;
-  font-family: 'Sarabun', sans-serif;
+  color: var(--tdp-text-main);
   transition: background 0.1s;
   user-select: none;
 }
-.tdp-day:hover                    { background: #eef2ff; }
-.tdp-day.tdp-other                { color: #ccc; }
-.tdp-day.tdp-today                { font-weight: 600; color: #4f7ef7; }
-.tdp-day.tdp-selected             { background: #4f7ef7; color: #fff; font-weight: 600; }
-.tdp-day.tdp-selected:hover       { background: #3a6be8; }
+.tdp-day:hover                    { background: var(--tdp-hover-bg); }
+.tdp-day.tdp-other                { color: var(--tdp-day-other); }
+.tdp-day.tdp-today                { font-weight: 600; color: var(--tdp-day-today); }
+.tdp-day.tdp-selected             { background: var(--tdp-primary); color: #fff; font-weight: 600; }
+.tdp-day.tdp-selected:hover       { background: var(--tdp-primary-hover); }
+.tdp-day.tdp-disabled             { color: var(--tdp-day-other); cursor: not-allowed; opacity: 0.5; background: none !important; }
+.tdp-day.tdp-disabled:hover       { background: none !important; }
 
 /* ─── month view ─── */
 .tdp-month-view {
@@ -150,13 +190,12 @@
   font-size: 13px;
   border-radius: 8px;
   cursor: pointer;
-  color: #222;
-  font-family: 'Sarabun', sans-serif;
+  color: var(--tdp-text-main);
   transition: background 0.1s;
   user-select: none;
 }
-.tdp-month:hover              { background: #eef2ff; }
-.tdp-month.tdp-selected       { background: #4f7ef7; color: #fff; font-weight: 600; }
+.tdp-month:hover              { background: var(--tdp-hover-bg); }
+.tdp-month.tdp-selected       { background: var(--tdp-primary); color: #fff; font-weight: 600; }
 
 /* ─── year view ─── */
 .tdp-year-view {
@@ -177,10 +216,133 @@
   font-size: 13px;
   border-radius: 8px;
   cursor: pointer;
-  color: #222;
-  font-family: 'Sarabun', sans-serif;
+  color: var(--tdp-text-main);
   transition: background 0.1s;
   user-select: none;
 }
-.tdp-year:hover              { background: #eef2ff; }
-.tdp-year.tdp-selected       { background: #4f7ef7; color: #fff; font-weight: 600; }
+.tdp-year:hover              { background: var(--tdp-hover-bg); }
+.tdp-year.tdp-selected       { background: var(--tdp-primary); color: #fff; font-weight: 600; }
+
+/* ─── scrollable time view ─── */
+.tdp-time-view {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  border-top: 1px solid var(--tdp-header-border);
+  background: var(--tdp-time-bg);
+}
+.tdp-time-view.tdp-hidden { display: none; }
+.tdp-time-view.tdp-only { border-top: none; }
+
+.tdp-time-label {
+  font-size: 13px;
+  color: var(--tdp-text-muted);
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.tdp-time-scroller {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+}
+
+.tdp-time-col {
+  width: 60px;
+  height: 140px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+.tdp-time-col::-webkit-scrollbar { display: none; }
+
+.tdp-time-col::before, .tdp-time-col::after {
+  content: '';
+  display: block;
+  height: 52px;
+}
+
+.tdp-time-item {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--tdp-text-muted);
+  cursor: pointer;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  transition: all 0.2s;
+  user-select: none;
+}
+.tdp-time-item.tdp-selected {
+  color: var(--tdp-primary);
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.tdp-time-sep {
+  font-size: 20px;
+  color: var(--tdp-sep-color);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.tdp-time-highlight {
+  position: absolute;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 36px;
+  border-top: 1.5px solid var(--tdp-hover-bg);
+  border-bottom: 1.5px solid var(--tdp-hover-bg);
+  pointer-events: none;
+  background: var(--tdp-time-highlight);
+  border-radius: 4px;
+}
+
+/* ─── footer ─── */
+.tdp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid var(--tdp-header-border);
+  background: var(--tdp-bg);
+}
+.tdp-footer.tdp-hidden { display: none; }
+
+.tdp-btn {
+  border: none;
+  background: none;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  font-family: 'Sarabun', sans-serif;
+  transition: all 0.1s;
+}
+
+.tdp-btn-today {
+  color: var(--tdp-primary);
+}
+.tdp-btn-today:hover {
+  background: var(--tdp-hover-bg);
+}
+
+.tdp-btn-clear {
+  color: var(--tdp-text-muted);
+}
+.tdp-btn-clear:hover {
+  background: var(--tdp-hover-bg);
+  color: #ff4d4f;
+}
